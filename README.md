@@ -97,5 +97,4 @@ TODO: Write usage instructions here
 Status](https://travis-ci.org/thatrubylove/functional-lists.png)](https://travis-ci.org/thatrubylove/functional-lists)
 [![Coverage
 Status](https://coveralls.io/repos/thatrubylove/functional-lists/badge.png?branch=master)](https://coveralls.io/r/thatrubylove/functional-lists?branch=master)
-[![CodeClimate
-Grade](https://codeclimate.com/github/thatrubylove/functional-lists.png)](https://codeclimate.com/github/thatrubylove/functional-lists/code)
+[![Code Climate](https://codeclimate.com/repos/52b2a06c7e00a4501f0097d7/badges/076e08290c28a94433e9/gpa.png)](https://codeclimate.com/repos/52b2a06c7e00a4501f0097d7/feed)
