@@ -91,3 +91,12 @@ TODO: Write usage instructions here
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## Health
+
+[![Build
+Status](https://travis-ci.org/thatrubylove/functional-lists.png)](https://travis-ci.org/thatrubylove/functional-lists)
+[![Coverage
+Status](https://coveralls.io/repos/thatrubylove/functional-lists/badge.png?branch=master)](https://coveralls.io/r/thatrubylove/functional-lists?branch=master)
+[![CodeClimate
+Grade](https://codeclimate.com/github/thatrubylove/functional-lists.png)](https://codeclimate.com/github/thatrubylove/functional-lists/code)
