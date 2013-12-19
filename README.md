@@ -20,7 +20,7 @@ and you wanted to put something in the middle of the list, well, you
 really cant. You can split the original array into head and tail and
 then insert and join, but that is a lot of copying data!
 
-``
+```
 [1,2,3,4,5,6,7,8,9,10] # original array
 [1,2,3,4]              # head
 [5,6,7,8,9,10]         # tail
@@ -63,7 +63,6 @@ Now 4.5 comes after 4 and before 5, and if you walk forward or backward,
 nothing really changes except the insertion. The cool thing though is
 *there is no array copying here*. We just added a single item, we didn't
 *change* some large data structure with expensive allocation.
-
 
 
 ## Installation
