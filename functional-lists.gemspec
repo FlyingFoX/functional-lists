@@ -1,7 +1,7 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'functional/lists/version'
+require 'functional/lists/gem_info'
 
 Gem::Specification.new do |spec|
   spec.name          = "functional-lists"
