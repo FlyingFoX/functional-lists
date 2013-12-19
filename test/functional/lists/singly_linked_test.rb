@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'functional/lists/singly_linked'
 
 describe "SinglyLinked" do
   subject { Functional::Lists::SinglyLinked.new }
