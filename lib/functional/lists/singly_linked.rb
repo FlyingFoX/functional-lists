@@ -7,7 +7,7 @@ module Functional
 
       def initialize(*objects)
         @head, @tail = nil, nil
-        objects.each {|obj| push(obj) }
+        objects.each {|object| push(object) }
       end
 
       def push(object)
