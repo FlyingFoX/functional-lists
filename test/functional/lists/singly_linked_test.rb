@@ -37,7 +37,7 @@ describe "SinglyLinked" do
   describe "#to_a" do
     subject { Functional::Lists::SinglyLinked.new 1,2,3,4,5 }
     it "must place all nodes into an array" do
-      subject.to_a.map(&:object).must_equal [5,4,3,2,1]
+      subject.to_a.map(&:object).must_equal [1,2,3,4,5]
     end
   end
 end
