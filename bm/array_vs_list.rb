@@ -1,29 +1,26 @@
 require 'benchmark'
 require_relative '../lib/functional/lists/singly_linked'
 
-class Character < Struct.new(:age, :first_name, :last_name, :race, :profession, 
-                                 :strength, :intelligence, :wisdom, :constitution,
-                                 :charisma, :luck)
+Character = Struct.new(:age, :first_name, :last_name, :race, :profession, 
+                       :strength, :intelligence, :wisdom, :constitution,
+                       :charisma, :luck) do; end
 
-end
 
 LinkedList = Functional::Lists::SinglyLinked
 
-COLLECTION_SIZE = 500_000
+COLLECTION_SIZE = 10_000
+A2Z = ("a".."z").to_a
 
 fake_name = -> {
-  chars = ("a".."z").to_a
-  rand(5..8).times.map { chars[rand(chars.size)] }.join()
+  Array.new(A2Z).sample(rand(5..8)).join
 }
 
 fake_profession = -> {
-  professions = %w(warrior thief cleric mage)
-  professions[rand(professions.size)]
+  %w(warrior thief cleric mage).sample
 }
 
 fake_race = -> {
-  races = %w(human dwarf elf half-elf)
-  races[rand(races.size)]
+  %w(human dwarf elf half-elf).sample
 }
 
 fake_character = -> {
@@ -35,42 +32,35 @@ fake_character = -> {
                )
 }
 
-make_array = ->(n) { n.times.map { fake_character.() } }
 make_list  = ->(n, list) { n.times.map { list.push fake_character.() } }
 
 
-bm_array = -> {
-  puts "working on building an array of #{COLLECTION_SIZE} items...."
-
-  array = make_array.(COLLECTION_SIZE)
-
-  Benchmark.bm do |bm|
-    bm.report("1 thing added to an array of #{COLLECTION_SIZE} items") do
-      array.push fake_character.()
-    end
-  end
-
-  array = nil
-}
-
-bm_sll = -> {
-  puts "working on building a singly linked list of #{COLLECTION_SIZE} items...."
-
-  list = LinkedList.new
-  list = make_list.(COLLECTION_SIZE, list)
-
-  Benchmark.bm do |bm|
-    bm.report("1 thing added to a list of #{COLLECTION_SIZE} items") do
-      list.push fake_character.()
-    end
-  end
-  
-  list = nil
-}
-
-
 puts "\e[H\e[2J"
+SAMPLE_SIZES = [1_000, 10_000, 100_000, 500_000, 1_000_000, 10_000_000]
+Benchmark.bm do |bm|
+  SAMPLE_SIZES.each do |size|
+    # bm_sll.(bm, size)
 
-bm_sll.()
+    list = LinkedList.new
+    
+    # bm.report("#{size} list") do
+    bm.report("List - build #{size}") do
+      size.times { list.push fake_character.() }
+    end
 
-bm_array.()
+
+    # bm_array.(bm, size)
+    # array = Array.new(size) { fake_character.() }
+    array = Array.new
+    bm.report("Array - build #{size}") do
+      size.times { array.push fake_character.() }
+    end
+  end
+end
+
+# [ ] how long does it take to initialize empty collection
+# [ ] how long does it take to initialize pre-sized collection
+# [ ] how long does it take to add single item to empty list
+# [x] how long does it take to add single item to pre-sized list
+# [ ] how long does it take to add all items to collection
+# [ ] how long do all steps take combined overall

@@ -1,37 +1,57 @@
 module Functional
   module Lists
 
+    Node = Struct.new(:object, :next)
+
     class SinglyLinked
+      attr_reader :head, :tail, :count
 
-      attr_reader :head, :tail, :size
+      alias_method :size, :count
 
-      def initialize(*objects)
-        @head, @tail = nil, nil
-        objects.each {|object| push(object) }
+      def initialize
+        @head = @tail = nil
+        @count = 0
       end
 
       def push(object)
-        node = Node.new(object, @head)
-        @head = node
+        @head = Node.new(object, @head)
         @tail ||= @head
+        @count += 1
         self
+      end
+      alias_method :unshift, :push
+      alias_method :<<, :push
+
+      def pop
+        node, to_pop = @head, @tail
+        until node.nil?
+          set_tail(node) if node.next == to_pop
+          node = node.next
+        end
+        to_pop.object
+      end
+
+      def shift
+        to_shift = @head
+        @head = @head.next
+        to_shift.object
       end
 
       def to_a
         nodes, node = [], @head
-        while(node != nil)
-          nodes << node
+        until node.nil?
+          nodes.unshift node
           node = node.next
         end
-        nodes.reverse
+        nodes
       end
 
-      class Node < Struct.new(:object, :next)
-        attr_reader :object, :next
+    private
 
-        def initialize(object, next_node=nil)
-          @object, @next = object, next_node
-        end
+      def set_tail(node)
+        @count -= 1
+        @tail = node
+        @tail.next = nil
       end
 
     end
