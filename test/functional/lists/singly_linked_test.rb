@@ -1,93 +1,155 @@
 require 'test_helper'
 require 'functional/lists/singly_linked'
 
-describe "SinglyLinked" do
+describe Functional::Lists::SinglyLinked do
   subject { Functional::Lists::SinglyLinked.new }
 
-  describe "#<<" do
-    it "is an alias for push" do
-      subject << "1"
-      subject.head.object.must_equal "1"
-    end
-  end
-
   describe "#push(object)" do
-    it "must put the new object @ head" do
-      subject.push("a")
-      subject.head.object.must_equal "a"
-      subject.tail.object.must_equal "a"
-
-      subject.push "b"
-      subject.head.object.must_equal "b"
-      subject.tail.object.must_equal "a"
-
-      subject.push "c"
-      subject.head.object.must_equal "c"
-      subject.tail.object.must_equal "a"
+    describe "newly initialized" do
+      before do
+        subject.push "a"
+      end
+      it "must set the head to the tail" do
+        subject.head.must_equal subject.tail
+      end
+      it "must set the tail to a" do
+        subject.tail.object.must_equal "a"
+      end
+      it "must set the count" do
+        subject.count.must_equal 1
+      end
     end
 
-    it "must keep the tail" do
-      subject.push "a"
-      subject.push "b"
-      subject.push "c"
-      subject.tail.object.must_equal "a"
-    end
-
-    it "must set the next pointer" do
-      subject.push("a")
-      subject.head.object.must_equal "a"
-
-      subject.push("b")
-      subject.head.object.must_equal "b"
-      subject.head.next.object.must_equal "a"
-
-      subject.push("c")
-      subject.head.object.must_equal "c"
-      subject.head.next.object.must_equal "b"
-      subject.tail.object.must_equal "a"
-    end
-
-    it "must increment the count" do
-      subject.push "a"
-      subject.count.must_equal 1
-      subject.push "b"
-      subject.count.must_equal 2
+    describe "with an existing element" do
+      before do
+        subject.push "a"
+        subject.push "b"
+      end
+      it "must leave the head at a" do
+        subject.head.object.must_equal "a"
+      end
+      it "must set the tail to b" do
+        subject.tail.object.must_equal "b"
+      end
+      it "must set the count" do
+        subject.count.must_equal 2
+      end
     end
   end
 
-  describe "#pop" do
-    it "must pull and return the last element on the list" do
-      subject.push "a"
-      subject.push "b"
-      subject.push "c"
-      old_size = subject.count
-      subject.pop.must_equal "a"
-      subject.count.must_equal old_size-1
+  describe "pop" do
+    before do
+      @popped = subject.pop
+    end
+
+    describe "newly initialized" do
+      it "must have a nil head and tail" do
+        subject.head.must_equal nil
+        subject.head.must_equal subject.tail
+      end
+      it "must return nil" do
+        @popped.must_equal nil
+      end
+      it "must have a 0 count" do
+        subject.count.must_equal 0
+      end
+    end
+
+    describe "with a existing elements" do
+      before do
+        subject.push "a"
+        subject.push "b"
+        subject.push "c"
+        @popped = subject.pop
+      end
+      it "must have a head of a" do
+        subject.head.object.must_equal "a"
+      end
+      it "must have a tail of b" do
+        subject.tail.object.must_equal "b"
+      end
+      it "must return the popped tail" do
+        @popped.must_equal "c"
+      end
+      it "must set the count" do
+        subject.count.must_equal 2
+      end
     end
   end
 
-  describe "#unshift" do
-    it "must add the element to the head of the list" do
-      subject.unshift "a"
-      subject.unshift "b"
-      subject.head.object.must_equal "b"
+  describe "#unshift(object)" do
+    describe "newly initialized" do
+      before do
+        subject.unshift "a"
+      end
+      it "must set the head to the tail" do
+        subject.head.must_equal subject.tail
+      end
+      it "must set the head to a" do
+        subject.head.object.must_equal "a"
+      end
+      it "must set the count" do
+        subject.count.must_equal 1
+      end
     end
-  end
-  
-  describe "#shift" do
-    it "must add the element to the head of the list" do
-      subject.unshift "a"
-      subject.unshift "b"
-      subject.shift.must_equal "b"
+
+    describe "with existing elements" do
+      before do
+        subject.unshift "a"
+        subject.unshift "b"
+        subject.unshift "c"
+      end
+      it "must leave the tail at a" do
+        subject.tail.object.must_equal "a"
+      end
+      it "must set the head to c" do
+        subject.head.object.must_equal "c"
+      end
+      it "must set the count" do
+        subject.count.must_equal 3
+      end
     end
   end
 
-  describe "#to_a" do
-    subject { Functional::Lists::SinglyLinked.new }
-    before { 5.times {|i| subject.push i+1 } }
-    it "must place all nodes into an array" do
-      subject.to_a.map(&:object).must_equal [1,2,3,4,5]
+  describe "shift" do
+    before do
+      @shifted = subject.shift
+    end
+
+    describe "newly initialized" do
+      it "must have a nil head and tail" do
+        subject.head.must_equal nil
+        subject.head.must_equal subject.tail
+      end
+      it "must return nil" do
+        @shifted.must_equal nil
+      end
+      it "must have a 0 count" do
+        subject.count.must_equal 0
+      end
+    end
+
+    describe "with a existing elements" do
+      before do
+        subject.unshift "a"
+        subject.unshift "b"
+        subject.unshift "c"
+        @shifted = subject.shift
+      end
+      it "must have a head of c" do
+        subject.head.object.must_equal "c"
+      end
+      it "must have a tail of a" do
+        subject.tail.object.must_equal "a"
+      end
+      it "must return the shifted head" do
+        @shifted.must_equal "c"
+      end
+      it "must set the count" do
+        subject.count.must_equal 2
+      end
     end
   end
+
 end
 

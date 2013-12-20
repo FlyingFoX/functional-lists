@@ -14,29 +14,51 @@ module Functional
       end
 
       def push(object)
-        @head = Node.new(object, @head)
-        @tail ||= @head
+        node = Node.new(object, nil)
+        if @head.nil?
+          @head, @tail = node, node
+        else
+          @tail.next = node
+          @tail = node
+        end
         @count += 1
         self
       end
-      alias_method :unshift, :push
       alias_method :<<, :push
 
       def pop
         node, to_pop = @head, @tail
         until node.nil?
-          set_tail(node) if node.next == to_pop
+          if node.next == to_pop
+            @count -= 1
+            @tail = node
+            @tail.next = nil
+          end
           node = node.next
         end
-        to_pop.object
+        to_pop.object if to_pop
+      end
+
+      def unshift(object)
+        node = Node.new(object, nil)
+        if @head.nil?
+          @head, @tail = node, node
+        else
+          @head.next = node
+          @head = node
+        end
+        @count += 1
+        self
       end
 
       def shift
+        return unless @head
         to_shift = @head
-        @head = @head.next
+        @head = to_shift.next if to_shift.next
+        @count -= 1
         to_shift.object
       end
-
+      
       def to_a
         nodes, node = [], @head
         until node.nil?
@@ -44,14 +66,6 @@ module Functional
           node = node.next
         end
         nodes
-      end
-
-    private
-
-      def set_tail(node)
-        @count -= 1
-        @tail = node
-        @tail.next = nil
       end
 
     end
