@@ -32,31 +32,34 @@ fake_character = -> {
                )
 }
 
-make_list  = ->(n, list) { n.times.map { list.push fake_character.() } }
+SAMPLE_SIZES = [1_000, 10_000, 100_000] #, 500_000, 1_000_000, 10_000_000]
 
-
+# reset console term
 puts "\e[H\e[2J"
-SAMPLE_SIZES = [1_000, 10_000, 100_000, 500_000, 1_000_000, 10_000_000]
+
 Benchmark.bm do |bm|
   SAMPLE_SIZES.each do |size|
-    # bm_sll.(bm, size)
+    array = Array.new
+    list  = LinkedList.new
 
-    list = LinkedList.new
-    
-    # bm.report("#{size} list") do
-    bm.report("List - build #{size}") do
+    bm.report("array#push\t") do
+      size.times { array.push fake_character.() }
+    end
+
+    bm.report("list#push\t") do
       size.times { list.push fake_character.() }
     end
 
+    bm.report("array#unshift\t") do
+      size.times { array.unshift fake_character.() }
+    end
 
-    # bm_array.(bm, size)
-    # array = Array.new(size) { fake_character.() }
-    array = Array.new
-    bm.report("Array - build #{size}") do
-      size.times { array.push fake_character.() }
+    bm.report("list#unshift\t") do
+      size.times { list.unshift fake_character.() }
     end
   end
 end
+
 
 # [ ] how long does it take to initialize empty collection
 # [ ] how long does it take to initialize pre-sized collection
