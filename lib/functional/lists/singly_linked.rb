@@ -26,7 +26,7 @@ module Functional
           nodes.unshift node
           node = node.next
         end
-        nodes
+        nodes.map(&:object)
       end
 
     end
