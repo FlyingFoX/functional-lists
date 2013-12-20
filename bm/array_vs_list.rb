@@ -1,11 +1,22 @@
 require 'benchmark'
 require_relative '../lib/functional/lists/singly_linked'
 
-LinkedList = Functional::Lists::SinglyLinked
+Character = Struct.new(:first, :last, :age, :profession, :race, :experiece)
 
-random  = Random.new(Time.now.to_i)
-range   = (0..1000)
-SAMPLE_SIZES = [1_000, 10_000, 100_000, 500_000, 1_000_000, 10_000_000]
+A2Z = ("a".."z").to_a
+fake_character =-> {
+  Character.new(
+    first: A2Z[rand(4..8)],
+    last: A2Z[rand(4..8)],
+    age: rand(16..38),
+    profession: %w(warrior thief cleric mage).sample,
+    race: %w(elf human troll dwarf).sample,
+    experience: rand(0..3600000)
+  )
+}
+
+LinkedList = Functional::Lists::SinglyLinked
+SAMPLE_SIZES = [10_000, 100_000, 750_000]
 
 # reset console term
 puts "\e[H\e[2J"
@@ -14,11 +25,9 @@ SAMPLE_SIZES.each do |size|
   array = Array.new
   list  = LinkedList.new
 
-  Benchmark.bm(15) do |x|
-    x.report('array#push')  { size.times do ; array.push random.rand(range) ; end }
-    x.report('list#push')   { size.times do ; list.push random.rand(range)  ; end }
-    x.report('array#pop')   { size.times do ; array.pop  ; end }
-    x.report('list#pop')    { size.times do ; list.pop   ; end }
+  Benchmark.bm(24) do |x|
+    x.report("#{size} => array#push")  { size.times do ; array.push fake_character.() ; end }
+    x.report("#{size} => list#push" )  { size.times do ; list.push  fake_character.() ; end }
   end
 
 end
