@@ -1,0 +1,27 @@
+Benchmarking singlylinked performance. This will take some time...
+** Sample size of 10
+** #=> 0.000237576
+** Sample size of 100
+** #=> 0.001426847
+** Sample size of 1000
+** #=> 0.014453271
+** Sample size of 10000
+** #=> 0.101241317
+** Sample size of 100000
+** #=> 1.14796596
+** Sample size of 1000000
+** #=> 31.098182705
+
+Benchmarking array performance. This will take some time...
+** Sample size of 10
+** #=> 0.000123212
+** Sample size of 100
+** #=> 0.000802643
+** Sample size of 1000
+** #=> 0.007177622
+** Sample size of 10000
+** #=> 0.073045232
+** Sample size of 100000
+** #=> 5.515481475
+** Sample size of 1000000
+** #=> 49.175269881

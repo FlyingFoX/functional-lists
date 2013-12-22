@@ -1,0 +1,1 @@
+{:type=>"Array", :operation=>"#push", :benchmarks=>[{:sample_size=>10, :benchmark=>8.0998e-05}, {:sample_size=>100, :benchmark=>0.000693331}, {:sample_size=>100, :benchmark=>0.000786242}, {:sample_size=>10000, :benchmark=>0.06790696}, {:sample_size=>100000, :benchmark=>5.300321387}, {:sample_size=>1000000, :benchmark=>48.944313693}]}

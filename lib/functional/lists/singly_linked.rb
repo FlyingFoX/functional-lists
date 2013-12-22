@@ -10,7 +10,7 @@ module Functional
       alias_method :length, :count
 
       def initialize
-        @head = @tail = Node.new(nil)
+        @head, @tail = Node.new, Node.new
         @count = 0
       end
 
@@ -28,12 +28,21 @@ module Functional
         until node.nil?
           if node.next == to_pop
             @count -= 1
-            node.next = nil
             @tail = node
+            @tail.next = nil
           end
           node = node.next
         end
         to_pop.object if to_pop
+      end
+
+      def include?(object)
+        node = @head
+        while node.next
+          return true if node.object == object
+          node = node.next
+        end
+        false
       end
 
       def to_a

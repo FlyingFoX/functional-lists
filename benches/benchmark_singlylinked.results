@@ -1,0 +1,1 @@
+{:type=>"Functional::Lists::SinglyLinked", :operation=>"#push", :benchmarks=>[{:sample_size=>10, :benchmark=>0.000132642}, {:sample_size=>100, :benchmark=>0.000705151}, {:sample_size=>100, :benchmark=>0.000817251}, {:sample_size=>10000, :benchmark=>0.11156499}, {:sample_size=>100000, :benchmark=>1.163126517}, {:sample_size=>1000000, :benchmark=>30.163466355}]}
