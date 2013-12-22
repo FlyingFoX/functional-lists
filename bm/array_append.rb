@@ -15,9 +15,8 @@ sample_obj = { size: 100000000 }
                       list.push  sample_obj }
 
   Benchmark.bmbm do |x|
-    array = x.report("array#push\t (#{sample_size})") { array.push sample_obj }
-    list  = x.report("list#push \t (#{sample_size})") { array.push sample_obj }
-    list - array
+    x.report("array#push\t (#{sample_size})") { array.push sample_obj }
+    x.report("list#push \t (#{sample_size})") { array.push sample_obj }
   end
 end
 
