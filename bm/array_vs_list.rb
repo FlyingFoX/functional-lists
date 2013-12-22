@@ -53,12 +53,11 @@ write_results = ->(filename, json) {
 
 mem_usage = -> { `ps -o rss= -p #{Process.pid}`.to_i }
 
-
 sample_benchmark_result = ->(sample, collection) {
   { 
-    sample_size: sample, benchmark: Benchmark.measure {
+    sample_size: sample, cpu_time: Benchmark.measure {
       sample.times { collection.push(fake_character.()) }
-    }.real
+    }.real, memory_usage: mem_usage.()
   }
 }
 
@@ -69,7 +68,7 @@ benchmark = ->(collection) {
   json[:benchmarks] = SAMPLE_SIZES.map {|sample|
     puts "** Sample size of #{sample}"
     result = sample_benchmark_result.(sample, collection)
-    puts "** #=> #{result[:benchmark]}"
+    puts "** #=> speed: #{result[:cpu_time]}, mem use: #{result[:memory_usage]}"
     result
   }
   write_results.(filename, json)
@@ -88,9 +87,14 @@ list_samples  = benchmark.(LinkedList.new)
 array_samples = benchmark.(Array.new)
 
 list_samples.each.with_index do |list_sample, i|
-  list_perf  = list_sample[:benchmark].to_f
-  array_perf = array_samples[i][:benchmark].to_f
+  list_perf  = list_sample[:cpu_time].to_f
+  array_perf = array_samples[i][:cpu_time].to_f
+  list_mem   = list_sample[:memory_usage].to_i*1024
+  array_mem  = array_samples[i][:memory_usage].to_i*1024
 
-  puts "#{list_perf < array_perf ? win : lose}\t#{list_sample[:size]}:\t\t"+
+  puts "CPU: \t#{list_perf < array_perf ? win : lose}\t#{list_sample[:sample_size]}:\t\t"+
        "(List: #{list_perf} < Array: #{array_perf}"
+
+  puts "MEM: \t#{list_mem < array_mem ? win : lose}\t#{list_sample[:sample_size]}:\t\t"+
+       "(List: #{list_mem} < Array: #{array_mem}"
 end
